@@ -2,7 +2,7 @@
 
 use yii\helpers\Url;
 
-$this->title = $contact->name . ' ' . $contact->lastName . ' contact - Agenda';
+$this->title = $contact->name . ' ' . $contact->lastName . ' contact';
 ?>
 
 <div class="site-index">

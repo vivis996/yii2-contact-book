@@ -5,7 +5,7 @@
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
-$this->title = 'Index - Agenda';
+$this->title = 'All contacts';
 ?>
 <div class="site-index">
     <div class="body-content">

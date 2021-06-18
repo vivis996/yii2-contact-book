@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'New contact - Agenda';
+$this->title = 'New contact';
 ?>
 
 <div class="site-index">
