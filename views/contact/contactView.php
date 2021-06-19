@@ -25,10 +25,6 @@ $this->title = $contact->name . ' ' . $contact->lastName . ' contact';
           <h2 for="phone">Phone: </h2>
           <h3 for="name"><?= $contact->phone ?></h3>
         </div>
-        <div class="form-group">
-          <h2 for="Status">Status: </h2>
-          <span class="label label-<?= $contact->status == 0 ? 'danger' : 'success' ?>" style="font-size:1.5em;"><?= $contact->status == 0 ? 'Inactive' : 'Active' ?></span>
-        </div>
         <br/>
         <div class="form-group">
           <div class="btn-group">

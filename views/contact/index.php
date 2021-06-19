@@ -27,7 +27,7 @@ $this->title = 'All contacts';
                         </thead>
                         <tbody>
                             <?php foreach ($contacts as $i => $contact) : ?>
-                                <tr class="<?= $contact->status == 0 ? 'danger' : '' ?>">
+                                <tr>
                                     <td><?= $contact->name; ?></td>
                                     <td><?= $contact->lastName; ?></td>
                                     <td><?= $contact->email; ?></td>

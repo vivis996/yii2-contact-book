@@ -2,46 +2,31 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'New contact';
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+$this->title = (isset($contact->id) ? 'Edit \'' . $contact->name . ' ' . $contact->lastName . '\'' : 'New') . ' contact';
 ?>
 
 <div class="site-index">
   <div class="body-content">
     <div class="row">
       <div class="col-md-12">
-        <h1><?= isset($contact) ? 'Edit \'' . $contact->name . ' ' . $contact->lastName . '\'' : 'New' ?> contact</h1>
+        <h1><?= isset($contact->id) ? 'Edit \'' . $contact->name . ' ' . $contact->lastName . '\'' : 'New' ?> contact</h1>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <form action="/contact/save<?= isset($contact) ? '?id=' . $contact->id : '' ?>" method="POST">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="form-control" value="<?= isset($contact) ? $contact->name : '' ?>">
-          </div>
-          <div class="form-group">
-            <label for="lastName">Last name</label>
-            <input type="text" name="lastName" id="lastName" class="form-control" value="<?= isset($contact) ? $contact->lastName : '' ?>">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control" value="<?= isset($contact) ? $contact->email : '' ?>" onkeyup="this.value = this.value.toLowerCase();"/>
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="number" name="phone" id="phone" class="form-control no-arrow" min="1" value="<?= isset($contact) ? $contact->phone : '' ?>">
-          </div>
-          <div class="form-group">
-            <label for="status">Status</label>
-            <select name="status" id="status" class="form-control">
-              <option value="0" <?= isset($contact) && $contact->status == 0 ? 'selected' : '' ?>>Inactive</option>
-              <option value="1" <?= !isset($contact) || $contact->status == 1 ? 'selected' : '' ?>>Active</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-success">
-          </div>
-        </form>
+        <?php $form = ActiveForm::begin(); ?>
+        <?= $form->errorSummary($contact); ?>
+        <?= $form->field($contact, 'name')->textInput() ?>
+        <?= $form->field($contact, 'lastName')->textInput() ?>
+        <?= $form->field($contact, 'email')->textInput() ?>
+        <?= $form->field($contact, 'phone')->textInput() ?>
+        <div class="form-group">
+          <?= Html::submitButton($contact->isNewRecord ? 'Create' : 'Update', ['class' => $contact->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+        <?php ActiveForm::end(); ?>
       </div>
     </div>
   </div>

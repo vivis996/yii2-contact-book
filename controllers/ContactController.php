@@ -70,7 +70,7 @@ class ContactController extends Controller
         $pages->defaultPageSize = 4;
 
         $contacts = $query->offset($pages->offset)
-            ->orderBy('status DESC, name, lastName')
+            ->orderBy('name, lastName')
             ->limit($pages->limit)
             ->all();
         return $this->render('index', [
@@ -86,7 +86,15 @@ class ContactController extends Controller
      */
     public function actionNew()
     {
-        return $this->render('contactForm');
+        $contact = new Contact();
+        if ($contact->load(Yii::$app->request->post())) {
+            if ($contact->validate() && $contact->save()) {
+                return $this->redirect(['view', 'id' => $contact->id]);
+            }
+        }
+        return $this->render('contactForm', [
+            'contact' => $contact,
+        ]);
     }
 
     /**
@@ -112,7 +120,15 @@ class ContactController extends Controller
         $contact = Contact::findOne([
             'id' => $id,
         ]);
-        return $this->render('contactForm', ['contact' => $contact,]);
+
+        if ($contact->load(Yii::$app->request->post())) {
+            if ($contact->validate() && $contact->save()) {
+                return $this->redirect(['view', 'id' => $contact->id]);
+            }
+        }
+        return $this->render('contactForm', [
+            'contact' => $contact,
+        ]);
     }
 
     /**
@@ -125,29 +141,7 @@ class ContactController extends Controller
         $contact = Contact::findOne([
             'id' => $id,
         ]);
-        $contact->status = false;
-        $contact->save();
-        return $this->redirect('/');
-    }
-
-    /**
-     * Save contact.
-     *
-     * @return string
-     */
-    public function actionSave($id = 0)
-    {
-        if ($id == 0) {
-            $contact = new Contact();
-        } else {
-            $contact = Contact::findOne([
-                'id' => $id,
-            ]);
-        }
-        $content = Yii::$app->request->post();
-        $contact->setAttributes($content, false);
-        $contact->save();
-
+        $contact->delete();
         return $this->redirect('/');
     }
 }
