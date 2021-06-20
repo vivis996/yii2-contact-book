@@ -49,6 +49,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => '/contact/index',
                 'contact/view/<id:\d+>' => 'contact/view',
                 'contact/edit/<id:\d+>' => 'contact/edit',
                 'contact/delete/<id:\d+>' => 'contact/delete',

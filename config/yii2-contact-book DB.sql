@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 18, 2021 at 09:14 PM
+-- Generation Time: Jun 20, 2021 at 07:52 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -36,27 +36,26 @@ CREATE TABLE `contact` (
   `name` varchar(40) NOT NULL,
   `lastName` varchar(40) DEFAULT NULL,
   `email` varchar(50) NOT NULL,
-  `phone` varchar(12) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL
+  `phone` varchar(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `contact`
 --
 
-INSERT INTO `contact` (`id`, `name`, `lastName`, `email`, `phone`, `status`) VALUES
-(1, 'John', 'Due', 'john.due@mail.com', '123456789', 0),
-(2, 'Samuel', 'Jackson', 'samuel.jackson@mail.com', '112341232', 1),
-(3, 'John', 'Smit', 'john.smith@mail.com', '23456789', 1),
-(4, 'Jane', 'Due', 'jane.due@mail.com', '98765432', 1),
-(5, 'Bruno', 'Diaz', 'bruno.diaz@mail.com', NULL, 1),
-(6, 'Jose', 'Perez', 'jose.perez@mail.com', NULL, 1),
-(7, 'Fulano', 'Merengano', 'fulano.merengano@mail.com', NULL, 1),
-(8, 'Baby', 'Due', 'baby.due@mail.com', NULL, 1),
-(9, 'Juana', 'Perez', 'juana.perez@mail.com', NULL, 1),
-(10, 'Emiliano', 'Gonzalez', 'emiliano.gonzalez@mail.com', NULL, 1),
-(11, 'Steve', 'Jobs', 'steve.jobs@mail.com', NULL, 0),
-(12, 'Bill', 'Gates', 'bill.gates@mail.com', NULL, 1);
+INSERT INTO `contact` (`id`, `name`, `lastName`, `email`, `phone`) VALUES
+(1, 'John', 'Due', 'john.due@mail.com', '123456789'),
+(2, 'Samuel', 'Jackson', 'samuel.jackson@mail.com', '112341232'),
+(3, 'John', 'Smit', 'john.smith@mail.com', '23456789'),
+(4, 'Jane', 'Due', 'jane.due@mail.com', '98765432'),
+(5, 'Bruno', 'Diaz', 'bruno.diaz@mail.com', '1234567891'),
+(6, 'Jose', 'Perez', 'jose.perez@mail.com', NULL),
+(7, 'Fulano', 'Merengano', 'fulano.merengano@mail.com', NULL),
+(8, 'Baby', 'Due', 'baby.due@mail.com', NULL),
+(9, 'Juana', 'Perez', 'juana.perez@mail.com', NULL),
+(10, 'Emiliano', 'Gonzalez', 'emiliano.gonzalez@mail.com', NULL),
+(11, 'Steve', 'Jobs', 'steve.jobs@mail.com', NULL),
+(12, 'Bill', 'Gates', 'bill.gates@mail.com', '1213456666');
 
 --
 -- Indexes for dumped tables
@@ -77,7 +76,7 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

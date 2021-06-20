@@ -40,7 +40,7 @@ AppAsset::register($this);
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => 'Home', 'url' => ['/contact']],
+                ['label' => 'Home', 'url' => ['/contact/index']],
                 ['label' => 'New contact', 'url' => ['/contact/new']],
             ],
         ]);
