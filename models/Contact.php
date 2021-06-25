@@ -6,24 +6,21 @@ use yii\db\ActiveRecord;
 
 class Contact extends ActiveRecord
 {
-  // public $id;
-  // public $name;
-  // public $lastName;
-  // public $email;
-  // public $phone;
-
   public function rules()
   {
     return [
-      [['name', 'lastName', 'email', 'phone'], 'required'],
-      [['name', 'lastName', 'email', 'phone'], 'filter', 'filter' => 'trim'],
+      [['name', 'lastName',], 'required'],
+      [['name', 'lastName',], 'filter', 'filter' => 'trim'],
       [['name', 'lastName'], 'string', 'max' => 40],
-      ['phone', 'string', 'min' => 10, 'max' => 12],
-      ['phone', 'match', 'pattern' => '/^[0-9]{10,12}$/'],
-      ['email', 'email'],
-      ['email', 'unique'],
-      [['email'], 'string', 'max' => 50],
     ];
+  }
+
+  public function attributes()
+  {
+    $attributes = parent::attributes();
+    $attributes[] = 'phone_List';
+    $attributes[] = 'email_List';
+    return $attributes;
   }
 
   /**
@@ -34,9 +31,13 @@ class Contact extends ActiveRecord
     return '{{contact}}';
   }
 
-  public function beforeSave($insert)
+  public function getEmails()
   {
-    $this->email = strtolower($this->email);
-    return true;
+    return $this->hasMany(EmailContact::class, ['contact_id' => 'id']);
+  }
+
+  public function getPhones()
+  {
+    return $this->hasMany(PhoneContact::class, ['contact_id' => 'id']);
   }
 }

@@ -30,14 +30,14 @@ $this->title = 'All contacts';
                                 <tr>
                                     <td><?= $contact->name; ?></td>
                                     <td><?= $contact->lastName; ?></td>
-                                    <td><?= $contact->email; ?></td>
-                                    <td><?= $contact->phone; ?></td>
+                                    <td><?= $contact->email_List->email; ?></td>
+                                    <td><?= $contact->phone_List->phone; ?></td>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-success" href="<?= Url::to(['contact/view', 'id' => $contact->id]) ?>">
+                                            <a class="btn btn-info" href="<?= Url::to(['contact/view', 'id' => $contact->id]) ?>">
                                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                             </a>
-                                            <a class="btn btn-primary" href="<?= Url::to(['contact/edit', 'id' => $contact->id]) ?>">
+                                            <a class="btn btn-warning" href="<?= Url::to(['contact/edit', 'id' => $contact->id]) ?>">
                                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                             </a>
                                             <a class="btn btn-danger" href="<?= Url::to(['contact/delete', 'id' => $contact->id]) ?>">

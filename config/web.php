@@ -53,11 +53,13 @@ $config = [
                 'contact/view/<id:\d+>' => 'contact/view',
                 'contact/edit/<id:\d+>' => 'contact/edit',
                 'contact/delete/<id:\d+>' => 'contact/delete',
+                'contact/email/<i:\d+>' => 'contact/email',
+                'contact/phone/<i:\d+>' => 'contact/phone',
             ],
         ],
-        // 'response' => [                 
-        //     'format' => yii\web\Response::FORMAT_JSON, 
-        //         'charset' => 'UTF-8',               
+        // 'response' => [
+        //     'format' => yii\web\Response::FORMAT_JSON,
+        //     'charset' => 'UTF-8',
         // ],
     ],
     'params' => $params,

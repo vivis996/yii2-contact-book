@@ -18,14 +18,22 @@ $this->title = $contact->name . ' ' . $contact->lastName . ' contact';
           <h3 for="name"><?= $contact->lastName ?></h3>
         </div>
         <div class="form-group">
-          <h2 for="email">Email: </h2>
-          <h3 for="name"><?= $contact->email ?></h3>
+          <h2 for="email">Email(s): </h2>
+          <ul>
+            <?php foreach ($contact->email_List as $i => $email) : ?>
+              <li for="name"><?= $email->email ?></li>
+            <?php endforeach; ?>
+          </ul>
         </div>
         <div class="form-group">
           <h2 for="phone">Phone: </h2>
-          <h3 for="name"><?= $contact->phone ?></h3>
+          <ul>
+          <?php foreach ($contact->phone_List as $i => $phone) : ?>
+            <li for="name"><?= $phone->phone ?></li>
+          <?php endforeach; ?>
+          </ul>
         </div>
-        <br/>
+        <br />
         <div class="form-group">
           <div class="btn-group">
             <a class="btn btn-warning" href="<?= Url::to(['contact/edit', 'id' => $contact->id]) ?>">Edit</a>
