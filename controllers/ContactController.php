@@ -52,8 +52,8 @@ class ContactController extends Controller
             ->all();
 
         foreach ($contacts as $i => $contact) {
-            $contact->email_List = $contact->emails[0];
-            $contact->phone_List = $contact->phones[0];
+            $contact->email_List = count($contact->emails) == 0 ? new EmailContact() : $contact->emails[0];
+            $contact->phone_List = count($contact->phones) == 0 ? new PhoneContact() : $contact->phones[0];
         }
         // return $contacts;
 
@@ -111,7 +111,7 @@ class ContactController extends Controller
         $contact = Contact::findOne([
             'id' => $id,
         ]);
-        if (!$contact){
+        if (!$contact) {
             return $this->redirect(['index']);
         }
         $contact->email_List = $contact->emails;
@@ -193,7 +193,7 @@ class ContactController extends Controller
         $contact = Contact::findOne([
             'id' => $id,
         ]);
-        if (!$contact){
+        if (!$contact) {
             return $this->redirect(['index']);
         }
 
