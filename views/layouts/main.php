@@ -42,6 +42,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Home', 'url' => ['/contact/index']],
                 ['label' => 'New contact', 'url' => ['/contact/new']],
+                ['label' => 'Import', 'url' => ['/contact/import']],
             ],
         ]);
         NavBar::end();

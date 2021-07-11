@@ -6,13 +6,12 @@ use app\models\Contact;
 use app\models\EmailContact;
 use app\models\PhoneContact;
 use app\models\TypeInput;
-use Exception;
+use app\models\UploadForm;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\data\Pagination;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 class ContactController extends Controller
 {
@@ -44,7 +43,7 @@ class ContactController extends Controller
         $query = Contact::find();
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
-        $pages->defaultPageSize = 4;
+        $pages->defaultPageSize = 10;
 
         $contacts = $query->offset($pages->offset)
             ->orderBy('name, lastName')
@@ -61,6 +60,96 @@ class ContactController extends Controller
             'contacts' => $contacts,
             'pages' => $pages,
         ]);
+    }
+
+    public function actionImport()
+    {
+        $model = new UploadForm();
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            $model->csvFile = UploadedFile::getInstance($model, 'csvFile');
+            $contacts = [];
+            if ($model->csvFile) {
+                $model->csvFile->saveAs('../csv/' . $model->csvFile->baseName . '.' . $model->csvFile->extension);
+                $model->csvFile = '../csv/' . $model->csvFile->baseName . '.' . $model->csvFile->extension;
+                $handle = fopen($model->csvFile, "r");
+                $headers = null;
+                $types = TypeInput::find()->orderBy('name')->all();
+
+                while (($fileop = fgetcsv($handle, 1000, ",")) !== false) {
+                    if (!$headers) {
+                        $headers = $fileop;
+                        continue;
+                    }
+                    $contentContact = [];
+                    $phones = [];
+                    $emails = [];
+                    foreach ($headers as $i => $header) {
+                        if (str_contains($header, 'phone')) {
+                            $type = str_replace('phone', '', $header);
+                            foreach ($types as $j => $t) {
+                                if ($t->name == $type) {
+                                    $type = $t;
+                                    break;
+                                }
+                            }
+                            if (!$type) {
+                                $type = $types[0];
+                            }
+                            $phone = new PhoneContact();
+                            $phone->phone = preg_replace('/[^0-9]/', '', $fileop[$i]);
+                            $phone->type_id = $type->id;
+                            $phones = array_merge($phones, [$phone]);
+                        } else {
+                            if (str_contains($header, 'email')) {
+                                $type = str_replace('email', '', $header);
+                                foreach ($types as $j => $t) {
+                                    if ($t->name == $type) {
+                                        $type = $t;
+                                        break;
+                                    }
+                                }
+                                if (!$type) {
+                                    $type = $types[0];
+                                }
+                                $email = new EmailContact();
+                                $email->email = $fileop[$i];
+                                $email->type_id = $type->id;
+                                $emails = array_merge($emails, [$email]);
+                            } else {
+                                $contentContact = array_merge($contentContact, [trim($header) => $fileop[$i]]);
+                            }
+                        }
+                    }
+
+                    $contact = new Contact();
+                    $contact->load($contentContact, '');
+                    if ($contact->validate() && $contact->save()) {
+                        $contact->email_List = $emails;
+                        $contact->phone_List = $phones;
+                        $contacts = array_merge($contacts, [$contact]);
+                    }
+                }
+            }
+
+            foreach ($contacts as $i => $contact) {
+                foreach ($contact->email_List as $j => $email) {
+                    $email->contact_id = $contact->id;
+                    if ($email->validate()) {
+                        $email->save();
+                    }
+                }
+                foreach ($contact->phone_List as $j => $phone) {
+                    $phone->contact_id = $contact->id;
+                    if ($phone->validate()) {
+                        $phone->save();
+                    }
+                }
+            }
+
+            // return $contacts;
+            return $this->redirect(['index']);
+        }
+        return $this->render('importView', ['model' => $model]);
     }
 
     /**
